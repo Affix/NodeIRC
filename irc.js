@@ -8,14 +8,14 @@ var net = require('net');
 
 var client = net.createConnection({port: serverPort, host: server},
     function() {
-  console.log('connected to " + server + "!');
+  console.log("Connected to " + server + "!");
   client.write("NICK "+ nick +"\r\n");
   client.write("USER node node node node\r\n")
   client.write("JOIN "+ chan +"\r\n")
 });
 
 client.on('data', function(data) {
-  //console.log(data.toString());
+  console.log(data.toString());
   /* Split used for IRC Messages */
   data = data.toString();
   data = data.replace(/\r\n/gi, "");
@@ -29,19 +29,19 @@ client.on('data', function(data) {
       console.log("PONG " + split[1]);
       client.write("PONG " + split[1] + "\r\n");
     }
-    console.log(cmd);
+
     if(cmd[0] == "!version")
     {
-      console.log("VERSION");
-      client.write("PRIVMSG " + chan + " :I am a NodeJS Bot Written by Affix!\r\n")
+      console.log("Client Command : VERSION");
+      client.write("PRIVMSG " + chan + " :I am a NodeJS Bot Written by Affix!\r\n");
     }
   } 
   catch (TypeError)
   {
-    console.log("Caught TypeError with " + cmd)
+    console.log("Caught TypeError with ");
   } 
 });
 
 client.on('end', function() {
-  console.log('disconnected from server');
+  console.log("disconnected from server");
 });
